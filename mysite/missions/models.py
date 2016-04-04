@@ -27,6 +27,7 @@ class UserForm(forms.ModelForm):
 class Mission(models.Model):
     name = models.CharField(max_length=120, unique=True)
     description = models.TextField()
+    completed = models.BooleanField(default=False)
     belongs_to= models.ForeignKey(UserProfile, on_delete=models.CASCADE)
 
     def __str__(self):
