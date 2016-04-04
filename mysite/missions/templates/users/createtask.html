@@ -3,23 +3,29 @@
 {% load staticfiles %}
 
 {% block body_block %}
-<h1> Add a task! </h1>
+<h1> Add a task to Mission: {{mission.name}}</h1>
+
+<div class="container">
+  <div class="row">
+    <div class="col-md-12">
 
 <form id="task_form" method="post" action="">
 
   {% csrf_token %}
-
   {% for field in form.visible_fields %}
     {{field.errors}}
-    {{field.help_text}}
+    <h3>{{field.help_text}}</h3>
     {{field}}
-    <br><br>
+    <br>
   {% endfor %}
 
-  <input type="submit" name="submit" value="Add this task!">
+  <br>
+  <input class="btn btn-success" type="submit" name="submit" value="Add this task!">
+  <a class="btn btn-danger" href="{% url 'users:list_tasks' mission.id %}"> Back </a>
 </form>
-<br>
-<br>
-<a href="{% url 'users:mytasks' %}"> I don't want to add a task after all. </a>
 
+</div>
+</div>
+</div>
+<br>
 {%endblock%}

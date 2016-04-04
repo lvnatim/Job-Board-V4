@@ -61,7 +61,8 @@ def create_task(request, id):
             print form.errors
     else:
         form = TaskForm()
-        return render(request, 'users/createtask.html', {"form":form})
+        mission = Mission.objects.get(id=id)
+        return render(request, 'users/createtask.html', {"form":form,"mission":mission})
 
 @login_required
 @permission_required('missions.add_mission', raise_exception=True)

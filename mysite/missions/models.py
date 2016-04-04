@@ -54,9 +54,9 @@ class Task(models.Model):
         return self.name
 
 class TaskForm(forms.ModelForm):
-    name = forms.CharField(help_text="Name of task: ")
-    description = forms.CharField(widget=forms.Textarea, help_text="Description of task: ")
-    exp = forms.IntegerField(help_text="Exp awarded (around 1 point per minute of estimated work): ")
+    name = forms.CharField(help_text="Name of task: ",widget=forms.TextInput(attrs={'class':'form-control'}))
+    description = forms.CharField(widget=forms.Textarea(attrs={"class":"form-control"}), help_text="Description of task: ")
+    exp = forms.IntegerField(widget=forms.NumberInput(attrs={"class":"form-control"}), help_text="Exp awarded (around 1 point per minute of estimated work): ")
 
     class Meta:
         model = Task
