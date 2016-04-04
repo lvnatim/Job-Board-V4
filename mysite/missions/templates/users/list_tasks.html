@@ -1,0 +1,50 @@
+{% extends 'missions/base.html'%}
+
+{% load staticfiles %}
+
+{% block body_block %}
+<div class = "container">
+  <div class = "row">
+    <div class="col-md-12">
+      <h1> Editing Tasks for Mission: {{mission.name}}</h1>
+      <a href="{% url 'users:create_task' mission.id %}" class="btn btn-primary btn-right">Add a Task</a><br><br>
+    </div>
+  </div>
+</div>
+
+<div class="container">
+  <div class="row">
+    {% for task in tasks %}
+      <div class="col-md-12" id="mission">
+        <h3>{{ task.name }}</h3>
+        <p>{{ task.description }}</p>
+        This task grants {{ task.exp }} experience points. <br><br>
+
+        {% if task.completed %}
+          <a class="btn btn-success disabled" href="">Task Completed.</a>
+        {% else %}
+        <a class="btn btn-success" href="{% url 'users:complete_task' task.id %}">Complete Task</a>
+        {% endif %}
+        <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#collapse{{task.id}}" aria-expanded="false" aria-controls="collapseExample">
+          Show Enrolled Users
+        </button>
+
+        <div class="collapse" id="collapse{{task.id}}">
+          <div class="well black">
+
+            {% for user in task.users_enrolled.all %}
+            {{ user.user.first_name }}
+            {{ user.user.last_name }}
+            <a class="btn btn-danger"href="{% url 'users:remove_user' id=task.id id2=user.id %}">Remove</a>
+            <br><br>
+            {% endfor %}
+
+          </div>
+        </div>
+      </div>
+
+    {% endfor %}
+  </div>
+</div>
+
+{% endblock %}

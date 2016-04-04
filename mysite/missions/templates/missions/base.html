@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+{% load staticfiles %}
+<html>
+  <head lang="en">
+    <meta charset="UTF-8">
+    <title>Taskalot - Get your stuff done!</title>
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap-theme.min.css">
+    {% block head_block %}
+      <script src="https://code.jquery.com/jquery-1.12.0.min.js"></script>
+      <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
+      <link rel="stylesheet" href="{% static 'css/mission.css' %}">
+    {% endblock %}
+  </head>
+
+  <body>
+
+{% block header_block %}
+    <div class="container">
+      <div class="row">
+        <div class="col-md-12" id="header">
+          <h1> TASKALOT -- <small>Ask to bask in the tasks.</small></h1><br>
+        </div>
+      </div>
+    </div>
+
+    {% if not user.is_authenticated %}
+      <div class="container">
+        <div class="row btn-bar">
+          <div class="col-md-6">
+            <a class="btn btn-default" href="{% url 'missions:leaderboard' %}">Leaderboard</a>
+            <a class="btn btn-default" href="{% url 'missions:list_missions' %}">Missions</a>
+          </div>
+          <div class="col-md-6">
+            <div class="btn-right">
+              <a class="btn btn-default" href="{% url 'auth_login' %}" role="button">Login</a>
+              <a class="btn btn-default" href="{% url 'register_user' %}" role="button">Register</a><br><br>
+            </div>
+          </div>
+        </div>
+      </div>
+    {% else %}
+      <div class="container">
+        <div class="row btn-bar">
+          <div class="col-md-6">
+            <a class="btn btn-default" href="{% url 'missions:leaderboard' %}">Leaderboard</a>
+            <a class="btn btn-default" href="{% url 'users:mytasks' %}">Manage Tasks</a>
+            <a class="btn btn-default" href="{% url 'missions:list_missions' %}">Mission Listings</a>
+          </div>
+          <div class="col-md-6">
+            <div class="btn-right">
+              <a class="btn btn-default" href="{% url 'auth_logout' %}?next=/missions/">Logout</a><br><br>
+            </div>
+          </div>
+        </div>
+      </div>
+    {% endif %}
+{% endblock %}
+
+    {% block body_block %} This is the body_block's default content. {% endblock %}
+  </body>
+</html>

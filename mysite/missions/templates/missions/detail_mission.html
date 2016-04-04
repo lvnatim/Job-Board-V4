@@ -1,0 +1,34 @@
+{% extends 'missions/base.html'%}
+
+{% load staticfiles %}
+
+{% block head_block %}
+
+<link rel="stylesheet" href="{% static 'css/mission.css' %}">
+
+{% endblock %}
+
+{% block body_block %}
+
+<h1> {{mission.name}} <small>Supervisor: {{mission.belongs_to.user.first_name}}</small></h1><br>
+
+<div class="container">
+  <div class="row">
+    {% for task in tasks %}
+      <div class="col-md-6" id="mission">
+      <h3>{{ task.name }}</h3>
+      <p> {{task.description}} </p><br>
+        {% if task.completed %}
+          <a class="btn btn-success btn-right disabled" href="">This task has been completed.</a>
+        {% elif userprofile in task.users_enrolled.all %}
+          <a class="btn btn-success btn-right disabled" href="{% url 'missions:accept_task' task.id %}">You have accepted this task.</a><br>
+        {% else %}
+          <a class="btn btn-success btn-right" href="{% url 'missions:accept_task' task.id %}">Accept Mission</a><br>
+        {% endif %}
+      </div>
+    {% endfor %}
+
+  </div>
+</div>
+
+{% endblock %}

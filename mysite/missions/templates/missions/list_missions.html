@@ -1,0 +1,26 @@
+{% extends 'missions/base.html' %}
+
+{% load staticfiles %}
+
+{% block head_block %}
+
+<link rel="stylesheet" href="{% static 'css/mission.css' %}">
+
+{% endblock %}
+
+{% block body_block %}
+
+  <div class='container'>
+    <div class='row'>
+      {% for mission in missions %}
+        <div class='col-md-4' id="mission">
+          <h4>{{ mission.name }} <br><small>Supervised by {{ mission.belongs_to.user.first_name}}</small></h4>
+          <p>{{ mission.description }}</p> <br>
+          <a href="{% url 'missions:detail_mission' id=mission.id %}" class="btn btn-warning btn-right"> Details </a>
+          <br>
+        </div>
+      {% endfor %}
+    </div>
+  </div>
+
+{% endblock %}

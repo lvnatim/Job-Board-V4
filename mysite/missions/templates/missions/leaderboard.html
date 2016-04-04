@@ -1,0 +1,45 @@
+{% extends 'missions/base.html' %}
+
+{% load staticfiles %}
+
+{% block head_block %}
+
+<link rel="stylesheet" href="{% static 'css/mission.css' %}">
+
+{% endblock %}
+
+{% block body_block %}
+
+<div class="container">
+  <div class="row">
+    <div class="col-md-4">
+      <h1> All Time </h1>
+        {% for user in users %}
+          <div id="scorebox">
+            Name: {{ user.user.first_name }}
+            <div class="btn-right">{{ user.totalexp }} EXP</div>
+          </div>
+        {% endfor %}
+    </div>
+    <div class="col-md-4">
+      <h1> Last Month </h1>
+      {% for user in users %}
+        <div id="scorebox">
+          Name: {{ user.user.first_name }}
+          <div class="btn-right">{{ user.totalexp }} EXP</div>
+        </div>
+      {% endfor %}
+    </div>
+    <div class="col-md-4">
+      <h1> Last Week </h1>
+      {% for user in users %}
+        <div id="scorebox">
+          Name: {{ user.user.first_name }}
+          <div class="btn-right">{{ user.totalexp }} EXP</div>
+        </div>
+      {% endfor %}
+    </div>
+  </div>
+</div>
+
+{% endblock %}

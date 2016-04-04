@@ -1,0 +1,70 @@
+{% extends 'missions/base.html' %}
+
+{% load staticfiles %}
+
+{% block head_block %}
+
+<link rel="stylesheet" href="{% static 'css/mission.css' %}">
+
+{% endblock %}
+
+{% block header_block %}
+{% endblock %}
+
+
+{% block body_block %}
+
+<div class="container">
+  <div class="row">
+    <div class="col-md-12" id="header">
+        <h1> TASKALOT -- <small>Ask to bask in the tasks. </small></h1><br>
+    </div>
+  </div>
+</div>
+
+<div class="container">
+  <div class="row btn-bar">
+    <div class="col-md-6">
+      <a class="btn btn-default" href="{% url 'missions:leaderboard' %}">Leaderboard</a>
+      <a class="btn btn-default" href="{% url 'users:mytasks' %}">Manage Tasks</a>
+      <a class="btn btn-default" href="{% url 'missions:list_missions' %}">Mission Listings</a>
+    </div>
+    <div class="col-md-6">
+      <div>
+        <a class="btn btn-primary" href="{% url 'users:create_mission' %}">Create a Mission</a><br><br>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="container">
+  <div class="row">
+    <div class="col-md-6">
+      <h1>My Tasks</h1><br>
+        {% for task in tasks %}
+          <div class="col-md-12" id="mission">
+            <h3>{{ task.name }}<br>
+            <small> Supervised by {{task.belongs_to.belongs_to.user.first_name}}</small><br>
+            <small> Part of the mission : {{task.belongs_to.name}}</small></h3>
+            <p>{{ task.description }}</p><br>
+            <!--<a href="" class="btn btn-danger btn-right">Remove</a><br>-->
+            </div>
+            {% endfor %}
+            <br>
+    </div>
+    <div class= "col-md-6">
+      <h1>My Owned Missions</h1><br>
+        {% for mission in missions %}
+          <div class="col-md-12" id="mission">
+            <h3>{{ mission.name }}<br><small>Supervised by {{ mission.belongs_to.user.first_name}} </small></h3>
+            <p>{{ mission.description }}</p><br>
+            <div class="btn-right">
+              <a href="{% url 'users:list_tasks' mission.id %}" class="btn btn-primary">Show Tasks</a>
+            </div>
+          </div>
+        {% endfor %}
+    </div>
+  </div>
+</div>
+
+{% endblock %}

@@ -1,0 +1,80 @@
+form {
+  color:black;
+}
+
+a {
+    color: #E18A07;
+}
+
+h1 {
+  color: white;
+  text-align:center;
+}
+
+h3 {
+  color: white;
+}
+
+body {
+  color:white;
+  background-color: #1A1A1A;
+}
+
+p {
+  color: #BEBEBE;
+}
+
+.black {
+  color: black;
+}
+
+#header {
+  border-width:2px;
+  border-style:solid;
+  border-color: white;
+  margin-top:10px;
+  margin-bottom:20px;
+  padding-top:30px;
+  padding-bottom:20px;
+  background-color: #000000;
+}
+
+.btn-bar{
+  border-style:solid;
+  border-color:black;
+  border-width:4px;
+  padding-top:20px;
+  margin-bottom:10px;
+  background: #E18A07;
+}
+
+.btn {
+  margin-left:5px;
+}
+
+.btn-right {
+  float:right;
+}
+
+.well {
+  margin-top:40px;
+}
+
+#mission {
+  background-color: #4F4F4F;
+  padding-top:10px;
+  padding-bottom:10px;
+  border-width:3px;
+  border-style:solid;
+  border-color:black;
+  margin-bottom:5px;
+}
+
+#scorebox {
+  background-color: #4F4F4F;
+  margin:2px;
+  padding:4px;
+  border-width:2px;
+  border-style:solid;
+  border-color:black;
+}

@@ -1,0 +1,25 @@
+{% extends 'missions/base.html' %}
+
+{% load staticfiles %}
+
+{% block body_block %}
+<h1> Add a task! </h1>
+
+<form id="task_form" method="post" action="">
+
+  {% csrf_token %}
+
+  {% for field in form.visible_fields %}
+    {{field.errors}}
+    {{field.help_text}}
+    {{field}}
+    <br><br>
+  {% endfor %}
+
+  <input type="submit" name="submit" value="Add this task!">
+</form>
+<br>
+<br>
+<a href="{% url 'users:mytasks' %}"> I don't want to add a task after all. </a>
+
+{%endblock%}

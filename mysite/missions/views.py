@@ -1,0 +1,34 @@
+from django.shortcuts import render, get_object_or_404
+from django.http import HttpResponse, HttpResponseRedirect
+from .models import Mission, Task, UserProfile, User
+from django.contrib.auth.decorators import login_required, permission_required
+
+# Create your views here.
+
+@login_required
+def list_missions(request):
+    missions = Mission.objects.all()
+    return render(request, 'missions/list_missions.html', {"missions":missions})
+
+def detail_mission(request, id):
+    userprofile= UserProfile.objects.get(user=request.user)
+    mission= get_object_or_404(Mission, id=id)
+    tasks = Task.objects.filter(belongs_to=mission)
+    return render(request, 'missions/detail_mission.html', {"tasks":tasks, "mission":mission,"userprofile":userprofile})
+
+def leaderboard(request):
+    users = UserProfile.objects.order_by('-totalexp')
+    return render(request, 'missions/leaderboard.html' ,{"users":users})
+
+@login_required
+def accept_task(request, id):
+    task = get_object_or_404(Task, id=id)
+    current_profile = UserProfile.objects.get(user=request.user)
+    if current_profile not in task.users_enrolled.all():
+        current_profile.task_set.add(task)
+        current_profile.save()
+        message = "Mission successfully added!"
+        return detail_mission(request, task.belongs_to.id)
+    else:
+        message = "You've already accepted this task."
+        return detail_mission(request, task.belongs_to.id)
