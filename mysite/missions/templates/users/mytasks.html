@@ -47,7 +47,7 @@
             <small> Supervised by {{task.belongs_to.belongs_to.user.first_name}}</small><br>
             <small> Part of the mission : {{task.belongs_to.name}}</small></h3>
             <p>{{ task.description }}</p><br>
-            <!--<a href="" class="btn btn-danger btn-right">Remove</a><br>-->
+            <a href="{% url 'users:remove_task' task.id %}" class="btn btn-danger btn-right">Remove</a><br>
             </div>
             {% endfor %}
             <br>

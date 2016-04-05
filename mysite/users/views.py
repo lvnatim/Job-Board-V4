@@ -31,6 +31,16 @@ def mytasks(request):
     missions = userprofile.mission_set.all()
     return render(request, 'users/mytasks.html', {"tasks":tasks,"missions":missions})
 
+@login_required
+def remove_task(request, id):
+    task = Task.objects.get(id=id)
+    current_profile = UserProfile.objects.get(user=request.user)
+    if current_profile in task.users_enrolled.all():
+        current_profile.task_set.remove(task)
+        current_profile.save()
+        return mytasks(request)
+    else:
+        return mytasks(request)
 
 @login_required
 @permission_required('missions.add_mission', raise_exception=True)
@@ -74,15 +84,6 @@ def list_tasks(request, id):
 
 @login_required
 @permission_required('missions.add_mission', raise_exception=True)
-def remove_user(request, id, id2):
-    task = Task.objects.get(id=id)
-    user = UserProfile.objects.get(id=id2)
-    task.users_enrolled.remove(user)
-    task.save()
-    return list_tasks(request, task.belongs_to.id)
-
-@login_required
-@permission_required('missions.add_mission', raise_exception=True)
 def complete_task(request, id):
     task = Task.objects.get(id=id)
     if task.completed==False:
@@ -92,3 +93,18 @@ def complete_task(request, id):
     task.completed=True
     task.save()
     return list_tasks(request, task.belongs_to.id)
+
+@login_required
+@permission_required('missions.add_mission', raise_exception=True)
+def remove_user(request, id, id2):
+    task = Task.objects.get(id=id)
+    user = UserProfile.objects.get(id=id2)
+    task.users_enrolled.remove(user)
+    task.save()
+    return list_tasks(request, task.belongs_to.id)
+
+@login_required
+@permission_required('missions.add_mission', raise_exception=True)
+def edit_task(request, id):
+    task = Task.objects.get(id=id)
+    
