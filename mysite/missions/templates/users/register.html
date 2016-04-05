@@ -6,18 +6,35 @@
 
 <h1> Create an Account </h1>
 
-<form id="user_form" method="post" action="">
+<div class="container">
+  <div class="row">
+    <div class="col-md-4"></div>
+    <div class="col-md-4">
+      <form id="user_form" method="post" action="">
+        {% csrf_token %}
 
-  {% csrf_token %}
+        {% for field in form.visible_fields %}
+          <h3 style="color:red;">{{ field.errors }}</h3>
+          <h3>{{ field.help_text }}</h3>
+          {{ field }}<br>
+        {% endfor %}
 
-  {% for field in form.visible_fields %}
-    {{ field.errors }}
-    {{ field.help_text }}
-    {{ field }}<br><br>
-  {% endfor %}
-  <input type="submit" name="submit" value="Create User"/>
+        {% if message %}
+          <h3 style="color:red;"><ul class="errorlist"><li>Passwords don't match.</li></ul></h3>
+        {% endif %}
 
-</form>
+        <h3> Password (again) </h3>
+        <input class="form-control"type="password" name="password2" id="password2"/>
+        <br><br>
+        <input class="btn btn-default btn-right"type="submit" name="submit" value="Create User"/>
+
+      </form>
+    </div>
+    <div class="col-md-4"></div>
+  </div>
+</div>
+
+
 <br>
 <br>
 <br>

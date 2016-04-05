@@ -9,18 +9,19 @@ from missions.models import Mission, MissionForm, Task, TaskForm, UserProfile, U
 def register(request):
     if request.method == 'POST':
         form = UserForm(request.POST)
-        if form.is_valid:
+        password1 = request.POST.get('password')
+        password2 = request.POST.get('password2')
+
+        if form.is_valid() and password1 == password2:
             user = form.save()
             user.set_password(user.password)
             user.save()
             UserProfile.objects.create(user=user)
             return HttpResponseRedirect('/accounts/login')
         else:
-            print form.errors
-
+            return render(request, 'users/register.html', {"form":form,"message":True})
     else:
         form = UserForm()
-
     return render(request, 'users/register.html', {"form":form})
 
 @login_required

@@ -14,11 +14,11 @@ class UserProfile(models.Model):
 
 #User Form
 class UserForm(forms.ModelForm):
-    username = forms.CharField(help_text="Username: ")
-    first_name = forms.CharField(help_text="First Name: ")
-    last_name = forms.CharField(help_text="Last Name: ")
-    email = forms.CharField(help_text="Email: ")
-    password = forms.CharField(widget=forms.PasswordInput(), help_text="Password :")
+    username = forms.CharField(widget=forms.TextInput(attrs={'class':'form-control'}),help_text="Username: ")
+    first_name = forms.CharField(widget=forms.TextInput(attrs={'class':'form-control'}),help_text="First Name: ")
+    last_name = forms.CharField(widget=forms.TextInput(attrs={'class':'form-control'}),help_text="Last Name: ")
+    email = forms.CharField(widget=forms.TextInput(attrs={'class':'form-control'}),help_text="Email: ")
+    password = forms.CharField(widget=forms.PasswordInput(attrs={'class':'form-control'}), help_text="Password :")
 
     class Meta:
         model = User
