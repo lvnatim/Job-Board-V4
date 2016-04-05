@@ -96,6 +96,14 @@ def complete_task(request, id):
 
 @login_required
 @permission_required('missions.add_mission', raise_exception=True)
+def uncomplete_task(request, id):
+    task = Task.objects.get(id=id)
+    task.completed=False
+    task.save()
+    return list_tasks(request, task.belongs_to.id)
+
+@login_required
+@permission_required('missions.add_mission', raise_exception=True)
 def remove_user(request, id, id2):
     task = Task.objects.get(id=id)
     user = UserProfile.objects.get(id=id2)
@@ -117,3 +125,16 @@ def edit_task(request, id):
     else:
         form = TaskForm(instance=task)
         return render(request, 'users/edit_task.html', {"form":form,"task":task})
+
+def edit_mission(request,id):
+    mission = Mission.objects.get(id=id)
+    if request.method == 'POST':
+        form = MissionForm(request.POST, instance=mission)
+        if form.is_valid:
+            form.save()
+            return list_tasks(request, id)
+        else:
+            print form.errors
+    else:
+        form = MissionForm(instance=mission)
+        return render(request, 'users/edit_mission.html', {"form":form, "mission":mission})
