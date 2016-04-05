@@ -36,8 +36,12 @@ def mytasks(request):
 @permission_required('missions.add_mission', raise_exception=True)
 def list_tasks(request, id):
     miss = Mission.objects.get(id=id)
+    user = UserProfile.objects.get(user=request.user)
     tasks = Task.objects.filter(belongs_to=miss)
-    return render(request, 'users/list_tasks.html', {"tasks":tasks, "mission":miss})
+    if miss.belongs_to != user:
+        return HttpResponseRedirect(reverse('users:mytasks'))
+    else:
+        return render(request, 'users/list_tasks.html', {"tasks":tasks, "mission":miss})
 
 @login_required
 def remove_task(request, id):
