@@ -22,6 +22,7 @@
   <br>
   <input class="btn btn-success" type="submit" name="submit" value="Save Changes">
   <a class="btn btn-warning" href="{% url 'users:uncomplete_task' task.id %}">Re-Instate Task</a>
+  <a class="btn btn-danger" href="{% url 'users:delete_task' task.id %}">Delete Task</a>
   <a class="btn btn-default" href="{% url 'users:list_tasks' task.belongs_to.id %}"> Back </a>
 </form>
 

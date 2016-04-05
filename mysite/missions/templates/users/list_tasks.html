@@ -8,6 +8,32 @@
     <div class="col-md-12">
       <h1> Listing Tasks for Mission: {{mission.name}}</h1>
       <br>
+
+      <!-- Button trigger modal -->
+      <button type="button" class="btn btn-danger btn-right" data-toggle="modal" data-target="#myModal">
+        Delete Mission
+      </button>
+
+      <!-- Modal -->
+      <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog" role="document">
+          <div style="color:black;"class="modal-content">
+            <div class="modal-header">
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+              <h4 class="modal-title" id="myModalLabel"> Mission Delete Confirmation </h4>
+            </div>
+            <div class="modal-body">
+              Are you sure you want to delete this mission? This action can not be reversed.
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+              <a href="{% url 'users:delete_mission' mission.id %}" class="btn btn-danger btn-right">Delete Mission</a>
+            </div>
+          </div>
+        </div>
+      </div>
+
+
       <a href="{% url 'users:create_task' mission.id %}" class="btn btn-primary btn-right">Add Task</a>
       <a href="{% url 'users:edit_mission' mission.id %}" class="btn btn-primary btn-right">Edit Mission</a><br><br>
     </div>
@@ -31,23 +57,20 @@
           Show Enrolled Users
         </button>
         <a class="btn btn-primary" href="{% url 'users:edit_task' task.id %}"> Edit Task </a>
+
         <div class="collapse" id="collapse{{task.id}}">
           <div class="well black">
-
             {% for user in task.users_enrolled.all %}
             {{ user.user.first_name }}
             {{ user.user.last_name }}
             <a class="btn btn-danger"href="{% url 'users:remove_user' id=task.id id2=user.id %}">Remove</a>
             <br><br>
             {% endfor %}
-
           </div>
-
         </div>
       </div>
-
     {% endfor %}
   </div>
 </div>
-
+<br><br>
 {% endblock %}

@@ -1,5 +1,6 @@
 from django.shortcuts import render
 from django.http import HttpResponseRedirect, HttpResponse
+from django.core.urlresolvers import reverse
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required, permission_required
@@ -32,6 +33,13 @@ def mytasks(request):
     return render(request, 'users/mytasks.html', {"tasks":tasks,"missions":missions})
 
 @login_required
+@permission_required('missions.add_mission', raise_exception=True)
+def list_tasks(request, id):
+    miss = Mission.objects.get(id=id)
+    tasks = Task.objects.filter(belongs_to=miss)
+    return render(request, 'users/list_tasks.html', {"tasks":tasks, "mission":miss})
+
+@login_required
 def remove_task(request, id):
     task = Task.objects.get(id=id)
     current_profile = UserProfile.objects.get(user=request.user)
@@ -60,6 +68,14 @@ def create_mission(request):
 
 @login_required
 @permission_required('missions.add_mission', raise_exception=True)
+def delete_mission(request, id):
+    mission = Mission.objects.get(id=id)
+    mission.delete()
+    return HttpResponseRedirect(reverse('users:mytasks'))
+
+
+@login_required
+@permission_required('missions.add_mission', raise_exception=True)
 def create_task(request, id):
     if request.method == 'POST':
         form = TaskForm(request.POST)
@@ -67,7 +83,7 @@ def create_task(request, id):
             task = form.save(commit=False)
             task.belongs_to = Mission.objects.get(id=id)
             task.save()
-            return HttpResponseRedirect("/users/dashboard/")
+            return list_tasks(request, id)
         else:
             print form.errors
     else:
@@ -77,10 +93,10 @@ def create_task(request, id):
 
 @login_required
 @permission_required('missions.add_mission', raise_exception=True)
-def list_tasks(request, id):
-    miss = Mission.objects.get(id=id)
-    tasks = Task.objects.filter(belongs_to=miss)
-    return render(request, 'users/list_tasks.html', {"tasks":tasks, "mission":miss})
+def delete_task(request, id):
+    task = Task.objects.get(id=id)
+    task.delete()
+    return HttpResponseRedirect(reverse('users:list_tasks',kwargs={"id":task.belongs_to.id}))
 
 @login_required
 @permission_required('missions.add_mission', raise_exception=True)
