@@ -6,7 +6,7 @@
 <div class = "container">
   <div class = "row">
     <div class="col-md-12">
-      <h1> Editing Tasks for Mission: {{mission.name}}</h1>
+      <h1> Listing Tasks for Mission: {{mission.name}}</h1>
       <a href="{% url 'users:create_task' mission.id %}" class="btn btn-primary btn-right">Add a Task</a><br><br>
     </div>
   </div>
@@ -28,7 +28,7 @@
         <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#collapse{{task.id}}" aria-expanded="false" aria-controls="collapseExample">
           Show Enrolled Users
         </button>
-
+        <a class="btn btn-danger" href="{% url 'users:edit_task' task.id %}"> Edit Task </a>
         <div class="collapse" id="collapse{{task.id}}">
           <div class="well black">
 
@@ -40,6 +40,7 @@
             {% endfor %}
 
           </div>
+
         </div>
       </div>
 

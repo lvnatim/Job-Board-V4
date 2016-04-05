@@ -10,6 +10,7 @@ urlpatterns = [
     url(r'^createmission/$', views.create_mission, name="create_mission"),
     url(r'^mission/(?P<id>\d+)/list/$', views.list_tasks, name="list_tasks"),
     url(r'^mission/(?P<id>\d+)/add/$', views.create_task, name="create_task"),
-    url(r'^mission/\d+/task/(?P<id>\d+)/complete/$', views.complete_task, name="complete_task"),
+    url(r'^task/(?P<id>\d+)/complete/$', views.complete_task, name="complete_task"),
+    url(r'^task/(?P<id>\d+)/edit/$', views.edit_task, name="edit_task"),
     url(r'^mission/\d+/task/(?P<id>\d+)/removeuser/(?P<id2>\d+)$', views.remove_user, name="remove_user"),
 ]

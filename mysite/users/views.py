@@ -107,4 +107,13 @@ def remove_user(request, id, id2):
 @permission_required('missions.add_mission', raise_exception=True)
 def edit_task(request, id):
     task = Task.objects.get(id=id)
-    
+    if request.method == 'POST':
+        form = TaskForm(request.POST, instance=task)
+        if form.is_valid:
+            form.save()
+            return list_tasks(request, task.belongs_to.id)
+        else:
+            print form.errors
+    else:
+        form = TaskForm(instance=task)
+        return render(request, 'users/edit_task.html', {"form":form,"task":task})
