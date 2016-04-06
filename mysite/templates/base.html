@@ -7,7 +7,7 @@
     <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
     <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap-theme.min.css">
     {% block head_block %}
-      <script src="https://code.jquery.com/jquery-1.12.0.min.js"></script>
+      <script src="{% static 'js/jquery-2.2.3.js' %}"></script>
       <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
       <link rel="stylesheet" href="{% static 'css/mission.css' %}">
     {% endblock %}
@@ -28,7 +28,8 @@
       <div class="container">
         <div class="row btn-bar">
           <div class="col-md-6">
-            <a class="btn btn-default" href="{% url 'missions:list_missions' %}">Mission Listings</a>
+            <a class="btn btn-default" href="{% url 'home:home' %}"> Home </a>
+            <a class="btn btn-default" href="{% url 'missions:list_missions' %}">Missions</a>
             <a class="btn btn-default" href="{% url 'missions:leaderboard' %}">Leaderboard</a>
           </div>
           <div class="col-md-6">
@@ -43,8 +44,9 @@
       <div class="container">
         <div class="row btn-bar">
           <div class="col-md-6">
-            <a class="btn btn-default" href="{% url 'missions:list_missions' %}">Mission Listings</a>
-            <a class="btn btn-default" href="{% url 'users:mytasks' %}">My Tasks</a>
+            <a class="btn btn-default" href="{% url 'home:home' %}"> Home </a>
+            <a class="btn btn-default" href="{% url 'missions:list_missions' %}">Missions</a>
+            <a class="btn btn-default" href="{% url 'users:mytasks' %}">My Quests</a>
             <a class="btn btn-default" href="{% url 'missions:leaderboard' %}">Leaderboard</a>
           </div>
           <div class="col-md-6">

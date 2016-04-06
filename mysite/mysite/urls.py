@@ -15,12 +15,15 @@ Including another URLconf
 """
 from django.conf.urls import url, include
 from django.contrib import admin
-from users import views
+from users.views import register
+from home.views import home
 
 urlpatterns = [
+    url(r'^$', home, name="mainhome"),
+    url(r'^home/', include('home.urls')),
     url(r'^admin/', admin.site.urls),
     url(r'^missions/', include('missions.urls')),
     url(r'^users/', include('users.urls')),
-    url(r'^accounts/register/', views.register, name="register_user" ),
+    url(r'^accounts/register/', register, name="register_user" ),
     url(r'^accounts/', include('registration.backends.simple.urls')),
 ]

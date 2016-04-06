@@ -28,7 +28,7 @@ def register(request):
 @login_required
 def mytasks(request):
     userprofile = UserProfile.objects.get(user=request.user)
-    tasks = userprofile.task_set.all()
+    tasks = userprofile.task_set.filter(completed=False)
     missions = userprofile.mission_set.all()
     return render(request, 'users/mytasks.html', {"tasks":tasks,"missions":missions})
 

@@ -20,6 +20,10 @@ body {
   background-color: #1A1A1A;
 }
 
+b {
+  color:#32cd32;
+}
+
 p {
   color: #BEBEBE;
 }
@@ -29,9 +33,9 @@ p {
 }
 
 #header {
-  border-width:2px;
+  border-width:3px;
   border-style:solid;
-  border-color: white;
+  border-color: #32cd32;
   margin-top:10px;
   margin-bottom:20px;
   padding-top:30px;
@@ -41,11 +45,11 @@ p {
 
 .btn-bar{
   border-style:solid;
-  border-color:black;
-  border-width:4px;
+  border-color:#32cd32;
+  border-width:1px;
   padding-top:20px;
   margin-bottom:10px;
-  background: #E18A07;
+  background: black;
 }
 
 .btn {
@@ -70,6 +74,17 @@ p {
   margin-bottom:5px;
 }
 
+#about {
+  color:white;
+  background-color: black;
+  padding-top:10px;
+  padding-bottom:10px;
+  border-width:3px;
+  border-style:solid;
+  border-color:#32cd32;
+  margin-bottom:5px;
+}
+
 #scorebox {
   background-color: #4F4F4F;
   margin:2px;
@@ -77,4 +92,8 @@ p {
   border-width:2px;
   border-style:solid;
   border-color:black;
+}
+
+.carousel-inner > .item > img, .carousel-inner > .item > a > img {
+    width: 100%;
 }
