@@ -4,11 +4,11 @@
   <head lang="en">
     <meta charset="UTF-8">
     <title>Taskalot - Get your stuff done!</title>
-    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
-    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap-theme.min.css">
     {% block head_block %}
       <script src="{% static 'js/jquery-2.2.3.js' %}"></script>
       <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
+      <link rel="stylesheet" href="{% static 'css/bootstrap.css' %}">
+      <link rel="stylesheet" href="{% static 'css/bootstrap-theme.css' %}">
       <link rel="stylesheet" href="{% static 'css/mission.css' %}">
     {% endblock %}
   </head>
@@ -16,47 +16,87 @@
   <body>
 
 {% block header_block %}
+
+{% if not user.is_authenticated %}
+
+  <nav class="navbar navbar-inverse navbar-fixed-top">
     <div class="container">
-      <div class="row">
-        <div class="col-md-12" id="header">
-          <h1> TASKALOT -- <small>Ask to bask in the tasks.</small></h1><br>
-        </div>
-      </div>
+
+      <!-- Brand and toggle get grouped for better mobile display -->
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="{% url 'home:home' %}">Home</a>
     </div>
 
-    {% if not user.is_authenticated %}
-      <div class="container">
-        <div class="row btn-bar">
-          <div class="col-md-6">
-            <a class="btn btn-default" href="{% url 'home:home' %}"> Home </a>
-            <a class="btn btn-default" href="{% url 'missions:list_missions' %}">Missions</a>
-            <a class="btn btn-default" href="{% url 'missions:leaderboard' %}">Leaderboard</a>
-          </div>
-          <div class="col-md-6">
-            <div class="btn-right">
-              <a class="btn btn-default" href="{% url 'auth_login' %}" role="button">Login</a>
-              <a class="btn btn-default" href="{% url 'register_user' %}" role="button">Register</a><br><br>
-            </div>
-          </div>
-        </div>
-      </div>
-    {% else %}
-      <div class="container">
-        <div class="row btn-bar">
-          <div class="col-md-6">
-            <a class="btn btn-default" href="{% url 'home:home' %}"> Home </a>
-            <a class="btn btn-default" href="{% url 'missions:list_missions' %}">Missions</a>
-            <a class="btn btn-default" href="{% url 'users:mytasks' %}">My Quests</a>
-            <a class="btn btn-default" href="{% url 'missions:leaderboard' %}">Leaderboard</a>
-          </div>
-          <div class="col-md-6">
-            <div class="btn-right">
-              <a class="btn btn-default" href="{% url 'auth_logout' %}?next=/missions/">Logout</a><br><br>
-            </div>
-          </div>
-        </div>
-      </div>
-    {% endif %}
+    <!-- Collect the nav links, forms, and other content for toggling -->
+    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+      <ul class="nav navbar-nav">
+        <li><a href="{% url 'home:home' %}"> Home </a></li>
+        <li><a href="{% url 'missions:leaderboard' %}">Leaderboard</a></li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li><a href="{% url 'auth_login' %}" role="button">Login</a></li>
+        <li><a href="{% url 'register_user' %}" role="button">Register</a></li>
+      </ul>
+
+    </div><!-- /.navbar-collapse -->
+  </div><!-- /.container-fluid -->
+</nav>
+
+
+{% else %}
+
+<nav class="navbar navbar-inverse navbar-fixed-top">
+  <div class="container">
+
+    <!-- Brand and toggle get grouped for better mobile display -->
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="{% url 'home:home' %}">Home</a>
+    </div>
+
+    <!-- Collect the nav links, forms, and other content for toggling -->
+    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+      <ul class="nav navbar-nav">
+        <li><a href="{% url 'missions:list_missions' %}">Missions</a></li>
+        <li class="dropdown">
+          <a href="" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">My Quests<span class="caret"></span></a>
+            <ul class="dropdown-menu">
+              <li><a href="{% url 'users:mytasks' %}">Dashboard</a></li>
+              <li role="separator" class="divider"></li>
+              <li><a href="{% url 'users:create_mission' %}">Create Mission</a></li>
+            </ul>
+        <li><a href="{% url 'missions:leaderboard' %}">Leaderboard</a></li>
+      </ul>
+
+      <ul class="nav navbar-nav navbar-right">
+        <li><a href="">Welcome, {{user.username}}</a></li>
+        <li><a href="{% url 'auth_logout' %}?next=/missions/">Logout</a></li>
+      </ul>
+
+    </div><!-- /.navbar-collapse -->
+  </div><!-- /.container-fluid -->
+</nav>
+
+
+{% endif %}
+
+<div class="container-fluid">
+   <div class="row" id="header">
+	    <img src="{% static 'img/header.jpg' %}" class="img-responsive">
+   </div>
+</div>
+
 {% endblock %}
 
     {% block body_block %} This is the body_block's default content. {% endblock %}

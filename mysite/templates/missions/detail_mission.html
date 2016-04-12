@@ -4,14 +4,25 @@
 
 {% block body_block %}
 
-<h1> {{mission.name}} <small>Supervisor: {{mission.belongs_to.user.first_name}}</small></h1><br>
+<h1> {{mission.name}} <small>Overseer: {{mission.belongs_to.user.first_name}}</small></h1><br>
 
+<div class="container">
+  <div class="row">
+    <div class="col-md-12">
+      <a class="btn btn-primary btn-right" href="{% url 'missions:by_exp' mission.id%}">Sort by Experience </a>
+      <a class="btn btn-primary btn-right" href="{% url 'missions:by_date' mission.id%}">Sort by Due Date</a>
+      <a class="btn btn-primary btn-right" href="{% url 'missions:by_priority' mission.id%}">Sort by Priority</a><br><br>
+    </div>
+  </div>
+</div>
 <div class="container">
   <div class="row">
     {% for task in tasks %}
       <div class="col-md-6" id="mission">
-      <h3>{{ task.name }}</h3>
-      <p> Experience Points Reward: <b>{{task.exp }} EXP</b></p> <br>
+      <h2>{{ task.name }}</h2>
+      Priority: <i style="color:{{task.priority.color}}"> {{task.priority}}</i>
+      <p style="color:white">Due Date: {{task.due_date}}</p>
+      <p> Experience Points Reward: <b>{{task.exp}} EXP</b></p> <br>
 
       <button type="button" class="btn btn-default btn-right" data-toggle="modal" data-target="#{{task.id}}">
         Details

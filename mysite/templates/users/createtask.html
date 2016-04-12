@@ -15,7 +15,7 @@
   {% for field in form.visible_fields %}
     {{field.errors}}
     <h3>{{field.help_text}}</h3>
-    {{field}}
+    {{ field }}
     <br>
   {% endfor %}
 

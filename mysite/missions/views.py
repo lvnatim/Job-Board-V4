@@ -10,10 +10,29 @@ def list_missions(request):
     missions = Mission.objects.all()
     return render(request, 'missions/list_missions.html', {"missions":missions})
 
+@login_required
 def detail_mission(request, id):
     userprofile= UserProfile.objects.get(user=request.user)
     mission= get_object_or_404(Mission, id=id)
     tasks = Task.objects.filter(belongs_to=mission)
+    return render(request, 'missions/detail_mission.html', {"tasks":tasks, "mission":mission,"userprofile":userprofile})
+
+def sort_by_exp(request, id):
+    userprofile= UserProfile.objects.get(user=request.user)
+    mission= get_object_or_404(Mission, id=id)
+    tasks = Task.objects.filter(belongs_to=mission).order_by('-exp')
+    return render(request, 'missions/detail_mission.html', {"tasks":tasks, "mission":mission,"userprofile":userprofile})
+
+def sort_by_date(request, id):
+    userprofile= UserProfile.objects.get(user=request.user)
+    mission= get_object_or_404(Mission, id=id)
+    tasks = Task.objects.filter(belongs_to=mission).order_by('due_date')
+    return render(request, 'missions/detail_mission.html', {"tasks":tasks, "mission":mission,"userprofile":userprofile})
+
+def sort_by_priority(request, id):
+    userprofile= UserProfile.objects.get(user=request.user)
+    mission= get_object_or_404(Mission, id=id)
+    tasks = Task.objects.filter(belongs_to=mission).order_by('-priority')
     return render(request, 'missions/detail_mission.html', {"tasks":tasks, "mission":mission,"userprofile":userprofile})
 
 def leaderboard(request):

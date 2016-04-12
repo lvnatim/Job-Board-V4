@@ -59,13 +59,13 @@ def remove_task(request, id):
 def create_mission(request):
     if request.method == 'POST':
         form = MissionForm(request.POST)
-        if form.is_valid:
+        if form.is_valid():
             mission = form.save(commit=False)
             mission.belongs_to = request.user.userprofile
             mission.save()
             return HttpResponseRedirect('/users/dashboard/')
         else:
-            print form.errors
+            return render(request, 'users/createmission.html/', {'form':form})
     else:
         form = MissionForm()
     return render(request, 'users/createmission.html/', {'form':form})
@@ -83,13 +83,13 @@ def delete_mission(request, id):
 def create_task(request, id):
     if request.method == 'POST':
         form = TaskForm(request.POST)
-        if form.is_valid:
+        if form.is_valid():
             task = form.save(commit=False)
             task.belongs_to = Mission.objects.get(id=id)
             task.save()
             return list_tasks(request, id)
         else:
-            print form.errors
+            return render(request, 'users/createtask.html', {"form":form,"mission":mission})
     else:
         form = TaskForm()
         mission = Mission.objects.get(id=id)
@@ -137,11 +137,11 @@ def edit_task(request, id):
     task = Task.objects.get(id=id)
     if request.method == 'POST':
         form = TaskForm(request.POST, instance=task)
-        if form.is_valid:
+        if form.is_valid():
             form.save()
             return list_tasks(request, task.belongs_to.id)
         else:
-            print form.errors
+            return render(request, 'users/edit_task.html', {"form":form,"task":task})
     else:
         form = TaskForm(instance=task)
         return render(request, 'users/edit_task.html', {"form":form,"task":task})
@@ -150,11 +150,11 @@ def edit_mission(request,id):
     mission = Mission.objects.get(id=id)
     if request.method == 'POST':
         form = MissionForm(request.POST, instance=mission)
-        if form.is_valid:
+        if form.is_valid():
             form.save()
             return list_tasks(request, id)
         else:
-            print form.errors
+            return render(request, 'users/edit_mission.html', {"form":form, "mission":mission})
     else:
         form = MissionForm(instance=mission)
         return render(request, 'users/edit_mission.html', {"form":form, "mission":mission})

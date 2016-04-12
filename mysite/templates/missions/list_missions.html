@@ -4,12 +4,12 @@
 
 {% block body_block %}
 
-  <div class='container'>
+  <div class='container-fluid'>
     <div class='row'>
       {% for mission in missions %}
         <div class='col-md-4' id="mission">
-          <h4>{{ mission.name }} <br><small>Supervised by {{ mission.belongs_to.user.first_name}}</small></h4>
-          <br><br><br>
+          <h4>{{ mission.name }} <br><small>Mission Overseer: {{ mission.belongs_to.user.first_name}}</small></h4>
+          Status: <i style="color: {{mission.priority.color}}">{{mission.priority}}</i><br><br>
           <!-- Button trigger modal -->
             <a href="{% url 'missions:detail_mission' id=mission.id %}" class="btn btn-warning btn-right"> Quests </a>
             <button type="button" class="btn btn-default btn-right" data-toggle="modal" data-target="#{{mission.id}}">
