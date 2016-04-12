@@ -11,6 +11,11 @@ def list_missions(request):
     return render(request, 'missions/list_missions.html', {"missions":missions})
 
 @login_required
+def miss_by_priority(request):
+    missions = Mission.objects.order_by('-priority')
+    return render(request, 'missions/list_missions.html', {"missions":missions})
+
+@login_required
 def detail_mission(request, id):
     userprofile= UserProfile.objects.get(user=request.user)
     mission= get_object_or_404(Mission, id=id)
