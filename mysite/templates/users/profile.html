@@ -1,0 +1,48 @@
+{% extends 'base.html' %}
+
+{% load staticfiles %}
+
+{% block body_block %}
+
+<div class= "container">
+
+  <div class="row">
+    <div class="col-md-11">
+      <h1>PERSONAL PROFILE</h1>
+    </div>
+  </div>
+
+  <br>
+  <br>
+  <br>
+
+  <div class= "row">
+    <div class="col-md-1"></div>
+    <div class= "col-md-3">
+      <img src="{% static 'img/level1.png' %}"/>
+    </div>
+    <br>
+    <div class="col-md-8">
+      <h2 style="font-family: 'Impact';">USERNAME: <b>{{user.username}}</b> </h2>
+      <h2 style="font-family: 'Impact';">FULL NAME: <b>{{user.first_name}} {{user.last_name}}</b></h2>
+      <h2 style="font-family: 'Impact';">LEVEL: <b>{{userdict.name}}</b></h2>
+      <h2 style="font-family: 'Impact';">TOTAL EXPERIENCE POINTS: <b>{{userprofile.totalexp}}</b></h2>
+      <h2 style="font-family: 'Impact';">POINTS TO NEXT LEVEL: <b>{{userprofile.totalexp}} / {{userdict.exp_required}}</b></h2>
+    </div>
+  </div>
+
+  <br>
+  <br>
+  <br>
+
+  <div class="row">
+    <div class="col-md-6">
+      <h1> RECENTLY COMPLETED TASKS </h1>
+    </div>
+    <div class="col-md-6">
+      <h1> CURRENT TASKS </h1>
+    </div>
+  </div>
+</div>
+
+{% endblock %}

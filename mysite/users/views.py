@@ -1,3 +1,4 @@
+from .appfunctions import getLevel
 from django.shortcuts import render
 from django.http import HttpResponseRedirect, HttpResponse
 from django.core.urlresolvers import reverse
@@ -6,7 +7,16 @@ from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required, permission_required
 from missions.models import Mission, MissionForm, Task, TaskForm, UserProfile, UserForm
 
-# Create your views here.
+# Functions that make repeated shit easier
+@login_required
+def getUserProfile(request):
+    user=request.user
+    if user.is_authenticated:
+        userprofile = UserProfile.objects.get(user=request.user)
+        return userprofile
+    else:
+        return None
+
 def register(request):
     if request.method == 'POST':
         form = UserForm(request.POST)
@@ -26,33 +36,46 @@ def register(request):
     return render(request, 'users/register.html', {"form":form})
 
 @login_required
-def mytasks(request):
-    userprofile = UserProfile.objects.get(user=request.user)
-    tasks = userprofile.task_set.filter(completed=False)
-    missions = userprofile.mission_set.all()
-    return render(request, 'users/mytasks.html', {"tasks":tasks,"missions":missions})
+def profile(request):
+    userprofile = getUserProfile(request)
+    userdict = getLevel(userprofile.totalexp)
+    return render(request, 'users/profile.html',{'userdict':userdict,'userprofile':userprofile})
+
+@login_required
+def my_quests(request):
+    user = getUserProfile(request)
+    quests = user.task_set.filter(completed=False)
+    return render(request, 'users/my_quests.html', {"quests":quests})
+
+@login_required
+def my_missions(request):
+    user = getUserProfile(request)
+    missions = Mission.objects.filter(belongs_to=user)
+    return render(request, 'users/my_missions.html', {"missions":missions})
+
 
 @login_required
 @permission_required('missions.add_mission', raise_exception=True)
 def list_tasks(request, id):
     miss = Mission.objects.get(id=id)
-    user = UserProfile.objects.get(user=request.user)
+    user = getUserProfile(request)
     tasks = Task.objects.filter(belongs_to=miss)
     if miss.belongs_to != user:
-        return HttpResponseRedirect(reverse('users:mytasks'))
+        return HttpResponseRedirect(reverse('users:my_missions'))
     else:
         return render(request, 'users/list_tasks.html', {"tasks":tasks, "mission":miss})
 
 @login_required
 def remove_task(request, id):
     task = Task.objects.get(id=id)
-    current_profile = UserProfile.objects.get(user=request.user)
+    miss_id = task.belongs_to.id
+    current_profile = getUserProfile(request)
     if current_profile in task.users_enrolled.all():
         current_profile.task_set.remove(task)
         current_profile.save()
-        return mytasks(request)
+        return list_tasks(request, miss_id)
     else:
-        return mytasks(request)
+        return list_tasks(request, miss_id)
 
 @login_required
 @permission_required('missions.add_mission', raise_exception=True)
@@ -75,7 +98,7 @@ def create_mission(request):
 def delete_mission(request, id):
     mission = Mission.objects.get(id=id)
     mission.delete()
-    return HttpResponseRedirect(reverse('users:mytasks'))
+    return HttpResponseRedirect(reverse('users:my_missions'))
 
 
 @login_required

@@ -1,0 +1,50 @@
+{% extends 'base.html' %}
+
+{% load staticfiles %}
+
+{% block body_block %}
+
+<div class="container">
+  <div class="row">
+
+    <div class= "col-md-12">
+      <h1>Owned Missions</h1><br>
+        {% for mission in missions %}
+          <div class="col-md-12" id="mission">
+            <h3>{{ mission.name }}<br><small>Mission Overseer: {{ mission.belongs_to.user.first_name}} </small></h3>
+            <p>{{ mission.description }}</p><br>
+            <div class="btn-right">
+              <!-- Button trigger modal -->
+              <button type="button" class="btn btn-danger btn-right" data-toggle="modal" data-target="#myModal">
+                Delete Mission
+              </button>
+
+              <!-- Modal -->
+              <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+                <div class="modal-dialog" role="document">
+                  <div style="color:black;"class="modal-content">
+                    <div class="modal-header">
+                      <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                      <h4 class="modal-title" id="myModalLabel"> Mission Delete Confirmation </h4>
+                    </div>
+                    <div class="modal-body">
+                      Are you sure you want to delete this mission? This action can not be reversed.
+                    </div>
+                    <div class="modal-footer">
+                      <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                      <a class="btn btn-danger"href="{% url 'users:delete_mission' mission.id%}"> Delete Mission </a>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <a href="{% url 'users:edit_mission' mission.id %}" class="btn btn-warning btn-right">Edit Mission</a>
+              <a href="{% url 'users:list_tasks' mission.id %}" class="btn btn-primary">Show Tasks</a>
+            </div>
+          </div>
+        {% endfor %}
+    </div>
+  </div>
+</div>
+
+{% endblock %}

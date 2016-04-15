@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+
+{% load staticfiles %}
+
+{% block body_block %}
+
+<div class="container">
+  <div class="row">
+      <h1>My Quests</h1><br>
+        {% for quest in quests %}
+          <div class="col-md-12" id="mission">
+            <h3>{{ quest.name }}<br>
+            <small> Mission Overseer: {{quest.belongs_to.belongs_to.user.first_name}}</small><br>
+            <small> Part of the mission : {{quest.belongs_to.name}}</small></h3>
+            <p>{{ quest.description }}</p><br>
+            <a href="{% url 'users:remove_task' quest.id %}" class="btn btn-danger btn-right">Remove</a><br>
+          </div>
+        {% endfor %}
+      <br>
+  </div>
+</div>
+
+
+{% endblock %}

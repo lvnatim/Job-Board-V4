@@ -74,8 +74,8 @@ class Task(models.Model):
 class TaskForm(forms.ModelForm):
     name = forms.CharField(help_text="Name of task: ",widget=forms.TextInput(attrs={'class':'form-control'}))
     description = forms.CharField(widget=forms.Textarea(attrs={"class":"form-control"}), help_text="Description of task: ")
-    exp = forms.IntegerField(widget=forms.NumberInput(attrs={"class":"form-control"}), help_text="Exp awarded (around 1 point per minute of estimated work): ")
-    due_date = forms.DateField(widget=forms.DateInput(attrs={"class":"form-control"}), help_text="Due Date (DD/MM/YYYY): ")
+    exp = forms.IntegerField(widget=forms.NumberInput(attrs={"class":"form-control"}), help_text="Exp awarded (around 10 points per minute of estimated work): ")
+    due_date = forms.DateField(widget=forms.DateInput(attrs={"class":"form-control"}), help_text="Due Date (MM/DD/YYYY): ")
     priority = forms.ModelChoiceField(queryset=Priority.objects.all(),widget=forms.Select(attrs={"class":"form-control"}), help_text="Priority: ", )
 
     class Meta:

@@ -5,7 +5,9 @@ app_name='users'
 
 urlpatterns = [
     url(r'^register/$', views.register, name="register"),
-    url(r'^dashboard/$', views.mytasks, name="mytasks"),
+    url(r'^profile/$', views.profile, name="profile"),
+    url(r'^dashboard/$', views.my_quests, name="my_quests"),
+    url(r'^dashboard/missions/$', views.my_missions, name="my_missions"),
     url(r'^dashboard/remove/(?P<id>\d+)/$', views.remove_task, name="remove_task"),
     url(r'^mission/create/$', views.create_mission, name="create_mission"),
     url(r'^mission/(?P<id>\d+)/delete/', views.delete_mission, name="delete_mission"),
