@@ -11,7 +11,7 @@ class UserProfile(models.Model):
     supervisor = models.BooleanField(default=False)
 
     def __str__(self):
-        return self.user.first_name
+        return self.user
 
 #User Form
 class UserForm(forms.ModelForm):
@@ -37,6 +37,7 @@ class Mission(models.Model):
     description = models.TextField()
     completed = models.BooleanField(default=False)
     belongs_to= models.ForeignKey(UserProfile, on_delete=models.CASCADE)
+    due_date = models.DateField(default=timezone.now)
     priority = models.ForeignKey(Priority_Mission, null=True)
 
     def __str__(self):
@@ -46,6 +47,7 @@ class MissionForm(forms.ModelForm):
     name = forms.CharField(widget=forms.TextInput(attrs={'class':'form-control'}), help_text="Title of Mission: ")
     description = forms.CharField(widget=forms.Textarea(attrs={'class':'form-control'}), help_text="Brief Description of Mission: ")
     priority = forms.ModelChoiceField(queryset=Priority_Mission.objects.all(),widget=forms.Select(attrs={"class":"form-control"}), help_text="Help Needed: ", )
+    due_date = forms.DateField(widget=forms.DateInput(attrs={"class":"form-control"}), help_text="Due Date (MM/DD/YYYY): ")
 
     class Meta:
         model = Mission
@@ -81,3 +83,8 @@ class TaskForm(forms.ModelForm):
     class Meta:
         model = Task
         fields = ("name","description","exp","due_date","priority")
+
+class History_Task(models.Model):
+    task = models.ForeignKey(Task)
+    users_enrolled = models.ManyToManyField(UserProfile)
+    timestamp = models.DateTimeField(auto_now_add=True)

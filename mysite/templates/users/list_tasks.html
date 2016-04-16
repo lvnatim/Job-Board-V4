@@ -8,7 +8,6 @@
     <div class="col-md-12">
       <h1> Listing Tasks for Mission: {{mission.name}}</h1>
       <br>
-
       <a href="{% url 'users:create_task' mission.id %}" class="btn btn-primary btn-right">Add Task</a><br><br>
     </div>
   </div>
@@ -24,6 +23,7 @@
 
         {% if task.completed %}
           <a class="btn btn-success disabled" href="">Task Completed.</a>
+          <a class="btn btn-warning" href="{% url 'users:uncomplete_task' task.id %}">Re-Instate Task</a>
         {% else %}
         <a class="btn btn-success" href="{% url 'users:complete_task' task.id %}">Complete Task</a>
         {% endif %}
@@ -44,7 +44,9 @@
         </div>
       </div>
     {% endfor %}
-    <a class="btn btn-default btn-right" href="{% url 'users:my_missions' %}">Go Back</a>
+    <div class="col-md-12">
+      <a class="btn btn-default btn-right" href="{% url 'users:my_missions' %}">Go Back</a>
+    </div>
   </div>
 </div>
 <br><br>

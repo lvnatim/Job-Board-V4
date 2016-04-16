@@ -5,7 +5,7 @@ from django.core.urlresolvers import reverse
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required, permission_required
-from missions.models import Mission, MissionForm, Task, TaskForm, UserProfile, UserForm
+from missions.models import Mission, MissionForm, Task, TaskForm, UserProfile, UserForm, History_Task
 
 # Functions that make repeated shit easier
 @login_required
@@ -73,9 +73,9 @@ def remove_task(request, id):
     if current_profile in task.users_enrolled.all():
         current_profile.task_set.remove(task)
         current_profile.save()
-        return list_tasks(request, miss_id)
+        return my_quests(request)
     else:
-        return list_tasks(request, miss_id)
+        return my_quests(request)
 
 @login_required
 @permission_required('missions.add_mission', raise_exception=True)
@@ -86,7 +86,7 @@ def create_mission(request):
             mission = form.save(commit=False)
             mission.belongs_to = request.user.userprofile
             mission.save()
-            return HttpResponseRedirect('/users/dashboard/')
+            return HttpResponseRedirect(reverse('users:my_missions'))
         else:
             return render(request, 'users/createmission.html/', {'form':form})
     else:
@@ -125,6 +125,18 @@ def delete_task(request, id):
     task.delete()
     return HttpResponseRedirect(reverse('users:list_tasks',kwargs={"id":task.belongs_to.id}))
 
+# For adding a history instance each time a task is completed
+
+def addTaskHistory(request, task):
+    if len(task.users_enrolled.all()) > 0:
+        task_hist = History_Task(task=task)
+        task_hist.save()
+        for user in task.users_enrolled.all():
+            task_hist.users_enrolled.add(user)
+        task_hist.save(force_update=True)
+    else:
+        pass
+
 @login_required
 @permission_required('missions.add_mission', raise_exception=True)
 def complete_task(request, id):
@@ -134,6 +146,7 @@ def complete_task(request, id):
             user.totalexp += task.exp
             user.save()
     task.completed=True
+    addTaskHistory(request, task)
     task.save()
     return list_tasks(request, task.belongs_to.id)
 
@@ -142,6 +155,7 @@ def complete_task(request, id):
 def uncomplete_task(request, id):
     task = Task.objects.get(id=id)
     task.completed=False
+    task.users_enrolled.clear()
     task.save()
     return list_tasks(request, task.belongs_to.id)
 
@@ -169,6 +183,8 @@ def edit_task(request, id):
         form = TaskForm(instance=task)
         return render(request, 'users/edit_task.html', {"form":form,"task":task})
 
+@login_required
+@permission_required('missions.add_mission', raise_exception=True)
 def edit_mission(request,id):
     mission = Mission.objects.get(id=id)
     if request.method == 'POST':

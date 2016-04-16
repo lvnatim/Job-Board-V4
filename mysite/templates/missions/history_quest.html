@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+
+{% load staticfiles %}
+
+{% block body_block %}
+
+  {% for entry in entries %}
+  {{ entry.task }}
+  {{ entry.users_enrolled }}
+  {{ entry.timestamp }}
+  {% endfor %}
+  
+{% endblock %}

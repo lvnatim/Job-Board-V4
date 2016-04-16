@@ -73,7 +73,12 @@
           <ul class="dropdown-menu">
             <li><a href="{% url 'missions:list_missions' %}"> <b>Missions</b> </a></li>
             <li><a href="{% url 'missions:miss_by_priority' %}">By Priority</a></li>
+            <li><a href="{% url 'missions:miss_by_date' %}">By Due Date</a></li>
             <li role="separator" class="divider"></li>
+            <li><a href="{% url 'missions:list_quests' %}"> <b>Quests</b> </a></li>
+            <li><a href="{% url 'missions:quest_by_priority' %}">By Priority</a></li>
+            <li><a href="{% url 'missions:quest_by_exp' %}">By Experience Points</a></li>
+            <li><a href="{% url 'missions:quest_by_date' %}">By Due Date</a></li>
           </ul>
         </li>
 

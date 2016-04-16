@@ -1,6 +1,6 @@
 from django.contrib import admin
 from django.db import models
-from .models import Mission, Task, UserProfile, Priority, Priority_Mission
+from .models import Mission, Task, UserProfile, Priority, Priority_Mission, History_Task
 from django.contrib.auth.models import User
 # Register your models here.
 
@@ -24,3 +24,4 @@ admin.site.register(Task, TaskAdmin)
 admin.site.register(Priority)
 admin.site.register(Priority_Mission)
 admin.site.register(UserProfile, UserProfileAdmin)
+admin.site.register(History_Task)

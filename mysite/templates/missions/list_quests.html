@@ -1,0 +1,52 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block body_block %}
+
+  <div class='container-fluid'>
+    <div class='row'>
+      <!-- the word "task" needs to be changed in the future!-->
+      {% for task in quests %}
+        <div class="col-md-4" id="mission">
+        <h4>{{ task.name }}</h4>
+        Priority: <i style="color:{{task.priority.color}}"> {{task.priority}}</i>
+        <p style="color:white">Due Date: {{task.due_date}}</p>
+        <p> Experience Points Reward: <b>{{task.exp}} EXP</b></p> <br>
+
+        <button type="button" class="btn btn-default btn-right" data-toggle="modal" data-target="#{{task.id}}">
+          Details
+        </button>
+
+        <!-- Modal -->
+        <div class="modal fade" id="{{task.id}}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+          <div class="modal-dialog" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel" style="color:black;">{{ task.name }}</h4>
+              </div>
+              <div class="modal-body">
+                <p style="color:black;">{{task.description}}</p>
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+          {% if task.completed %}
+            <a class="btn btn-success btn-right disabled" href="">This task has been completed.</a>
+          {% elif userprofile in task.users_enrolled.all %}
+            <a class="btn btn-success btn-right disabled" href="{% url 'missions:accept_task' task.id %}">You have accepted this task.</a><br>
+          {% else %}
+            <a class="btn btn-success btn-right" href="{% url 'missions:accept_task' task.id %}">Accept Mission</a><br>
+          {% endif %}
+        </div>
+
+      {% endfor %}
+    </div>
+  </div>
+
+{% endblock %}
