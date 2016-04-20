@@ -41,7 +41,7 @@ def miss_by_date(request):
     return render(request, 'missions/list_missions.html', {"missions":missions})
 
 def historyTask(request):
-    entries = History_Task.objects.order_by('timestamp')
+    entries = History_Task.objects.order_by('-timestamp')
     return render(request, 'missions/history_quest.html', {"entries":entries})
 
 @login_required

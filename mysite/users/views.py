@@ -39,7 +39,9 @@ def register(request):
 def profile(request):
     userprofile = getUserProfile(request)
     userdict = getLevel(userprofile.totalexp)
-    return render(request, 'users/profile.html',{'userdict':userdict,'userprofile':userprofile})
+    taskhistory = History_Task.objects.filter(users_enrolled=userprofile)[:10]
+    quests = userprofile.task_set.filter(completed=False)[:10]
+    return render(request, 'users/profile.html',{'userdict':userdict,'userprofile':userprofile, 'taskhistory':taskhistory, 'quests':quests})
 
 @login_required
 def my_quests(request):

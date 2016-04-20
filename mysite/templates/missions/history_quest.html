@@ -3,11 +3,19 @@
 {% load staticfiles %}
 
 {% block body_block %}
-
-  {% for entry in entries %}
-  {{ entry.task }}
-  {{ entry.users_enrolled }}
-  {{ entry.timestamp }}
-  {% endfor %}
-  
+<div class="container">
+      {% for entry in entries %}
+    <div class="row">
+      <div class="col-md-2"></div>
+      <div class="col-md-8" id="mission">
+        <b>At {{ entry.timestamp }} UTC</b>
+        <b>{{ entry.task }}</b> was done by
+        {% for user in entry.users_enrolled.all %}
+          <b>{{ user.user.first_name }}</b>
+        {% endfor %}
+      </div>
+      <div class="col-md-2"></div>
+  </div>
+      {% endfor %}
+</div>
 {% endblock %}

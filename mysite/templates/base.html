@@ -79,6 +79,8 @@
             <li><a href="{% url 'missions:quest_by_priority' %}">By Priority</a></li>
             <li><a href="{% url 'missions:quest_by_exp' %}">By Experience Points</a></li>
             <li><a href="{% url 'missions:quest_by_date' %}">By Due Date</a></li>
+            <li role="separator" class="divider"></li>
+            <li><a href="{% url 'missions:history' %}"> <b>History</b> </a></li>
           </ul>
         </li>
 
@@ -95,7 +97,7 @@
 
       <ul class="nav navbar-nav navbar-right">
         <li><a href="{% url 'users:profile' %}">Welcome, {{user.username}}</a></li>
-        <li><a href="{% url 'auth_logout' %}?next=/missions/">Logout</a></li>
+        <li><a href="{% url 'auth_logout' %}?next=/home/">Logout</a></li>
       </ul>
 
     </div><!-- /.navbar-collapse -->
@@ -105,9 +107,11 @@
 
 {% endif %}
 
-<div class="container-fluid">
+<div class="container">
    <div class="row" id="header">
+     <div class="col-md-12 text-center">
 	    <img src="{% static 'img/header.jpg' %}" class="img-responsive">
+    </div>
    </div>
 </div>
 

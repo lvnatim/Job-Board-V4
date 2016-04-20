@@ -23,6 +23,7 @@ urlpatterns = [
     url(r'^home/', include('home.urls')),
     url(r'^admin/', admin.site.urls),
     url(r'^boards/', include('missions.urls')),
+    url(r'^blog/', include('blog.urls')),
     url(r'^users/', include('users.urls')),
     url(r'^accounts/register/', register, name="register_user" ),
     url(r'^accounts/', include('registration.backends.simple.urls')),
