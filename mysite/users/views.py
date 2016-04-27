@@ -106,6 +106,7 @@ def delete_mission(request, id):
 @login_required
 @permission_required('missions.add_mission', raise_exception=True)
 def create_task(request, id):
+    mission = Mission.objects.get(id=id)
     if request.method == 'POST':
         form = TaskForm(request.POST)
         if form.is_valid():
@@ -117,7 +118,6 @@ def create_task(request, id):
             return render(request, 'users/createtask.html', {"form":form,"mission":mission})
     else:
         form = TaskForm()
-        mission = Mission.objects.get(id=id)
         return render(request, 'users/createtask.html', {"form":form,"mission":mission})
 
 @login_required
