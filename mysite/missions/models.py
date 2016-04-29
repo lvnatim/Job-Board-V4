@@ -11,7 +11,7 @@ class UserProfile(models.Model):
     supervisor = models.BooleanField(default=False)
 
     def __str__(self):
-        return self.user
+        return self.user.username
 
 #User Form
 class UserForm(forms.ModelForm):
